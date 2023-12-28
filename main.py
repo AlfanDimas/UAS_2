@@ -69,8 +69,8 @@ class CreateMessage(ft.Column):
         super().__init__(spacing=4)
         self.controls = [ft.Text(self.name, opacity=0.6), self.text]
 
-# OOP Polimorphism
-class MessageOutput(ft.UserControl):
+# Konsep OOP inheritance dan Polimorphism
+class MessageOutput(ft.UserControl): # ini contoh konsep inheritance class ini merupakan class turunan dari ft.UserControl dan mengambil semua atribut dan method dari kelas induknya, selain itu class ini juga menjadi parent class bagi kelas turunan yang ada dibawahnya
     def __init__(self, name: str, chat: ft.ListView):
         self.name = name
         self.chat: ft.ListView = chat
@@ -88,18 +88,18 @@ class MessageOutput(ft.UserControl):
             msg.text.value = "".join(word_list)
             self.chat.update()
             time.sleep(0.008)
-class UserOutput(MessageOutput):
+class UserOutput(MessageOutput): # ini adalah kelas turunan dari MessageOutput
     def __init__(self, chat: ft.ListView):
         super().__init__("Me", chat)
 
-    def display_output(self, prompt):
+    def display_output(self, prompt): #method ini akan di gunakan lagi di kelas kelas lain dibawahnya, yang mana merupakan konsep polymorphism
         self.animate_text_output(prompt)
 class GptOutput(MessageOutput):
     # the following is the basic response to get chat GPT answer
     def __init__(self, chat: ft.ListView):
         super().__init__("Agora", chat)
 
-    def display_output(self, prompt):
+    def display_output(self, prompt): #method ini merupakan method dari class UserOutput yang di gunakan kembali di class GptOutput (polymorphism)
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "user", "content": prompt}]
